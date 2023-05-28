@@ -5,8 +5,7 @@ Authors@R:
   person("Jo", "jo", , "Jo.Jo@gmail.com", role = c("aut", "cre"),
          comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-license
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a license
 Imports:
   dplyr (>= 0.7.2),
   ggplot2 (>= 2.2.1).
