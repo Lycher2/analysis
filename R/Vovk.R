@@ -10,9 +10,10 @@
 #' @examples
 #' tree <- "Bolshoy Dub"
 #' honey_evaluate(tree)
-answer <- function(x){
-  if x = A {
-    print("# source("Ci.R")      # Подключаем файл Ci.R данной командой 
+answer_a <- function(a){
+    return(print(" 
+    #gde ' tam dve '
+    # source('Ci.R')      # Подключаем файл Ci.R данной командой 
       #-------------------------------------------------------------------------------------
       # Доверительные интервалы
       # ciE(Rez,0.95)       # Вычисляет доверительный интервал для E по выборке Rez
@@ -59,8 +60,8 @@ answer <- function(x){
       # Проверяет условие нормировки функции плотности вероятности f на области локализации [a, b] 
       
       is.fun <- function(f, a, b) {
-        if (abs(integrate(f,a,b)$value - 1) > 10^(-8)) {return(paste(integrate(f,a,b)$value," Opps...! f is not density!"))}
-        else { return("OK!")}
+        if (abs(integrate(f,a,b)$value - 1) > 10^(-8)) {return(paste(integrate(f,a,b)$value,' Opps...! f is not density!'))}
+        else { return('OK!')}
       }
       
       #--------------------------
@@ -117,11 +118,8 @@ answer <- function(x){
         p1 <- k1/n1; p2 <- k2/n2; p <- (k1+k2)/(n1+n2)
         Z <- (p1-p2-0.5/(n1+n2))/(p*(1-p)*(1/n1+1/n2))^0.5
         #  by(X, Y, mean)
-        Res <- paste("Pvalue = ", round(2*(1-pnorm(abs(Z))), 5))
+        Res <- paste('Pvalue = ', round(2*(1-pnorm(abs(Z))), 5))
         return(Res)
       })
-  }")
-  if x = E {
-    
-  }
+  }"))
 }
