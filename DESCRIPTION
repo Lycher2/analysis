@@ -7,6 +7,8 @@ Authors@R:
 Description: What the package does (one paragraph).
 Depends: R (>= 3.4.0)
 License: GPL-3
+Collate:
+    'Vovk.R'
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
