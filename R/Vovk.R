@@ -10,7 +10,7 @@
 #' @examples
 #' tree <- "Bolshoy Dub"
 #' honey_evaluate(tree)
-answer_a <- function(a){
+Vovk <- function(a){
     return(print(" 
     #gde ' tam dve '
     # source('Ci.R')      # Подключаем файл Ci.R данной командой 
