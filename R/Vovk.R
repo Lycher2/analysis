@@ -6,7 +6,7 @@
 #'
 #' @param tree the tree for which the amount of honey is estimated
 #' @return numeric the estimated amount of good honey
-#' @export
+#' @export Vovk
 #' @examples
 #' tree <- "Bolshoy Dub"
 #' honey_evaluate(tree)
