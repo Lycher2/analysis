@@ -1,14 +1,12 @@
-#' Evaluates the amount of good honey given the tree
+#' abc for R
 #'
-#' Evaluates the amount of good honey given the tree
-#'
-#' The amount of honey is estimated using the latest mcmc methods.
-#'
-#' @param tree the tree for which the amount of honey is estimated
-#' @return numeric the estimated amount of good honey
+#' @param a quadratic coefficient
+#' @param b linear coefficient
+#' @param c constant
+#' @return root
 #' @export
-Vovk <- function(a){
-    return(print(" 
+abc <- function(a){
+  print(" 
     #gde ' tam dve '
     # source('Ci.R')      # Подключаем файл Ci.R данной командой 
       #-------------------------------------------------------------------------------------
@@ -118,5 +116,5 @@ Vovk <- function(a){
         Res <- paste('Pvalue = ', round(2*(1-pnorm(abs(Z))), 5))
         return(Res)
       })
-  }"))
+  }")
 }
