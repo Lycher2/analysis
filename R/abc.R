@@ -6,54 +6,54 @@
 #' @return root
 #' @export
 abc <- function(a){
-  cat(" 1) Описательная статистика
+  cat(" 1) Opisatelnaya statistika
        Var(X)	
-       33. n	СЧЁТ(F:F)
-       34. s^2	ДИСП.В(F:F)
-       35. xи2 лев	ХИ2.ОБР(I37/2;I33-1)
-       36. хи2 прав	ХИ2.ОБР(1-I37/2;I33-1)
-      Тест 1
-      Н0: r=0	статистически незначим
-      H1: rне=0	статистически значим
-      PV < 0,005 => Н0 отклоняется коэф коррел статистически значим
-      для 3 компаний по столбцу логдоходности
+       33. n	SChET(F:F)
+       34. s^2	DISP.V(F:F)
+       35. xi2 lev	KhI2.OBR(I37/2;I33-1)
+       36. khi2 prav	KhI2.OBR(1-I37/2;I33-1)
+      Test 1
+      N0: r=0	statisticheski neznachim
+      H1: rne=0	statisticheski znachim
+      PV < 0,005 => N0 otklonyaetsya koef korrel statisticheski znachim
+      dlya 3 kompaniy po stolbtsu logdokhodnosti
       cor.test(X$V1, Y$V1) 
       cor.test(X$V1, Y$V1)$p.value
       cor.test(X$V1, Y$V1)$p.value<0.005
 
-      Тест 2
-      𝐻0:𝐸(𝑋𝑖)=0		альфа=0,05
+      Test 2
+      𝐻0:𝐸(𝑋𝑖)=0		alfa=0,05
       𝐻1:𝐸(𝑋𝑖)≠0
       t.test(X$V1, mu=0)  $p.value   	
       t.test(X$V1, mu=0)  $p.value <0.05 
-      больше альфа	не отклоняется
-      меньше альфа	отклоняется
+      bolshe alfa	ne otklonyaetsya
+      menshe alfa	otklonyaetsya
 
-      Тест 3
+      Test 3
       𝐻0:𝐸(𝑋𝑖)=𝐸(𝑋𝑗)		
       𝐻1:𝐸(𝑋𝑖)≠𝐸(𝑋𝑗)		
-      альфа=0,05
+      alfa=0,05
       t.test(X$V1, Y$V1)$p.value 		
       t.test(X$V1, Y$V1)$p.value <0.05 		
 
-      Тест 4
-      Н0: Var(X)=Var(Y)	
-      H1: Var(X)не=Var(Y)	
-      альфа=0,05	
+      Test 4
+      N0: Var(X)=Var(Y)	
+      H1: Var(X)ne=Var(Y)	
+      alfa=0,05	
       var.test(X$V1, Y$V1)$p.value 		
       var.test(X$V1, Y$V1)$p.value <0.05 		
 
-      Тест 5
+      Test 5
       lillie.test(X$V1) 		
       lillie.test(X$V1)$p.value 		
       lillie.test(X$V1)$p.value < 0.001 		
 
     #gde ' tam dve '
-    # source('Ci.R')      # Подключаем файл Ci.R данной командой 
+    # source('Ci.R')      # Podklyuchaem fayl Ci.R dannoy komandoy 
       #-------------------------------------------------------------------------------------
-      # Доверительные интервалы
-      # ciE(Rez,0.95)       # Вычисляет доверительный интервал для E по выборке Rez
-      # ciD(Rez,0.95)       # Вычисляет доверительный интервал для D по выборке Rez
+      # Doveritelnye intervaly
+      # ciE(Rez,0.95)       # Vychislyaet doveritelnyy interval dlya E po vyborke Rez
+      # ciD(Rez,0.95)       # Vychislyaet doveritelnyy interval dlya D po vyborke Rez
       
       ciE <- function(X, Gamma) {
         n <- length(X)
@@ -63,7 +63,7 @@ abc <- function(a){
         return(Res)
       }
       #--------------------------
-      # Доверительный интервал для генеральной дисперсии (или для истинной дисперсии) по выборке
+      # Doveritelnyy interval dlya generalnoy dispersii (ili dlya istinnoy dispersii) po vyborke
       ciD <- function(X, Gamma) {
         n <- length(X)
         ciD <- sd(X, na.rm = TRUE)^2*(n-1)/qchisq((1+c(Gamma,0,-Gamma))/2,n-1)
@@ -72,7 +72,7 @@ abc <- function(a){
         return(Res)
       }
       #-----------------------------------------------------------------------------------------
-      # Доверительный интервал для генеральной доли (или для истинной вероятности) по выборке
+      # Doveritelnyy interval dlya generalnoy doli (ili dlya istinnoy veroyatnosti) po vyborke
       ciP <- function(k,n,N,Gamma) {
         if (N == Inf) {ciP <- k/n-sqrt(k/n*(1-k/n)/n)*qnorm((1+c(Gamma,0,-Gamma))/2)} 
         else  {ciP <- k/n-sqrt(k/n*(1-k/n)/n)*sqrt(1-n/N)*qnorm((1+c(Gamma,0,-Gamma))/2)}
@@ -80,20 +80,20 @@ abc <- function(a){
         Res <- list(Po = ciP[2], Interval = Interval)
         return(Res)
       }
-      ciP(10,21,Inf,0.95)  # Для повторной выборки
-      ciP(10,21,100,0.95)  # Для бесповторной выборки с указанием объема генеральной совокупности
+      ciP(10,21,Inf,0.95)  # Dlya povtornoy vyborki
+      ciP(10,21,100,0.95)  # Dlya bespovtornoy vyborki s ukazaniem obema generalnoy sovokupnosti
       #-------------------------------------------------------------------------------------
-      # Непрерывная с.в. X с произвольно заданной функцией плотности f(x) на [a, b], включая b = inf.
-      # ВАЖНО! Необходимая Функция плотности f <- function(x) {x*exp(-x)} должна быть объявлена заранее
+      # Nepreryvnaya s.v. X s proizvolno zadannoy funktsiey plotnosti f(x) na [a, b], vklyuchaya b = inf.
+      # VAZhNO! Neobkhodimaya Funktsiya plotnosti f <- function(x) {x*exp(-x)} dolzhna byt obyavlena zaranee
       
-      # is.fun(f, a = 0, b = Inf)        # Проверяет нормировку функции плотности f 
-      # rfun(n = 300, f, a = 0, b = 4)   # Наблюдения n раз случайной величины X ~ f(x), локализованной на [a, b]
-      # pfun(q = 2, f, a = 0, b = 3)     # Вероятность P[X ≤ q] для X ~ f(x), локализованной на [a, b]
-      # dfun(x = 3, f, a = -5, b = Inf)  # Плотность f(x) для X ~ f(x), локализованной на [a, b]
-      # qfun(p = 0.5, f, a = 4, b = 100) # Квантиль уровня p для X ~ f(x), локализованной на [a, b]
+      # is.fun(f, a = 0, b = Inf)        # Proveryaet normirovku funktsii plotnosti f 
+      # rfun(n = 300, f, a = 0, b = 4)   # Nablyudeniya n raz sluchaynoy velichiny X ~ f(x), lokalizovannoy na [a, b]
+      # pfun(q = 2, f, a = 0, b = 3)     # Veroyatnost P[X ≤ q] dlya X ~ f(x), lokalizovannoy na [a, b]
+      # dfun(x = 3, f, a = -5, b = Inf)  # Plotnost f(x) dlya X ~ f(x), lokalizovannoy na [a, b]
+      # qfun(p = 0.5, f, a = 4, b = 100) # Kvantil urovnya p dlya X ~ f(x), lokalizovannoy na [a, b]
       
       #--------------------------
-      # Проверяет условие нормировки функции плотности вероятности f на области локализации [a, b] 
+      # Proveryaet uslovie normirovki funktsii plotnosti veroyatnosti f na oblasti lokalizatsii [a, b] 
       
       is.fun <- function(f, a, b) {
         if (abs(integrate(f,a,b)$value - 1) > 10^(-8)) {return(paste(integrate(f,a,b)$value,' Opps...! f is not density!'))}
@@ -101,15 +101,15 @@ abc <- function(a){
       }
       
       #--------------------------
-      # Разыгрывает n раз случайную величину X c плотностью вероятности f, локализованную на [a, b]
-      # P.S. Параметр step - шаг по x при вычислении интегрального уравнения, по умолчанию 0.01
+      # Razygryvaet n raz sluchaynuyu velichinu X c plotnostyu veroyatnosti f, lokalizovannuyu na [a, b]
+      # P.S. Parametr step - shag po x pri vychislenii integralnogo uravneniya, po umolchaniyu 0.01
       
       rfun <- function(n, f, a, b, step = 0.01) {
-        X <- rep(a, n) # Назначаем X в начале каждого i-го опыта из n самому левому значению: a
-        Y <- runif(n)    # n раз генерируем равномерную с.в. Y на (0,1)
+        X <- rep(a, n) # Naznachaem X v nachale kazhdogo i-go opyta iz n samomu levomu znacheniyu: a
+        Y <- runif(n)    # n raz generiruem ravnomernuyu s.v. Y na (0,1)
         for (i in 1:n) {
           I <- 0
-          while(I < Y[i]) { # Этот цикл решает интегральное уравнение для генерации X по Y
+          while(I < Y[i]) { # Etot tsikl reshaet integralnoe uravnenie dlya generatsii X po Y
             X[i] <- X[i] + step
             I <- integrate(f, a, X[i])$value
           }
@@ -119,7 +119,7 @@ abc <- function(a){
       }
       
       #--------------------------
-      # Вычисляет вероятность P(X ≤ q) для X ~ f(x), локализованной на [a, b].
+      # Vychislyaet veroyatnost P(X ≤ q) dlya X ~ f(x), lokalizovannoy na [a, b].
       
       pfun <- function(q, f, a, b) {
         if (q < a) {return(0)} else 
@@ -130,26 +130,26 @@ abc <- function(a){
       }
       
       #--------------------------
-      # Вычисляет значение плотности вероятности f в точке x для X ~ f(x), локализованной на [a, b] .
+      # Vychislyaet znachenie plotnosti veroyatnosti f v tochke x dlya X ~ f(x), lokalizovannoy na [a, b] .
       
       dfun <- function(x, f, a, b) {
         return(f(x)) 
       }  
       
       #--------------------------
-      # Вычисляет квантиль уровня p для X ~ f(x), локализованной на [a, b] .
-      # P.S. Параметр step - шаг по x при вычислении интегрального уравнения, по умолчанию 0.001
+      # Vychislyaet kvantil urovnya p dlya X ~ f(x), lokalizovannoy na [a, b] .
+      # P.S. Parametr step - shag po x pri vychislenii integralnogo uravneniya, po umolchaniyu 0.001
       
       qfun <- function(p, f, a, b, step = 0.01) {
         q <- a
         I <- 0
-        while(I < p) { # Этот цикл решает интегральное уравнение
+        while(I < p) { # Etot tsikl reshaet integralnoe uravnenie
           q <- q + step
           I <- integrate(f, a, q)$value
         }
         return(q - step) 
       }
-      #---------Проверка равенства долей--------------------
+      #---------Proverka ravenstva doley--------------------
       EqP <- function(k1, k2, n1, n2) {
         p1 <- k1/n1; p2 <- k2/n2; p <- (k1+k2)/(n1+n2)
         Z <- (p1-p2-0.5/(n1+n2))/(p*(1-p)*(1/n1+1/n2))^0.5
@@ -164,18 +164,18 @@ abc <- function(a){
   length(data)
   summary(data)
   describe(data)
-  IQR(data) # Межквартильный размах
-  quantile(data, probs = 0.38) # Квантиль уровня
-  var(data, y = NULL, na.rm = FALSE) #Дисперсия выборки (несмещенная)
-  skew(data)#	Асимметричность (несмещенная оценка)
-  kurtosi(data)#	Эксцесс (несмещенная оценка)
+  IQR(data) # Mezhkvartilnyy razmakh
+  quantile(data, probs = 0.38) # Kvantil urovnya
+  var(data, y = NULL, na.rm = FALSE) #Dispersiya vyborki (nesmeshchennaya)
+  skew(data)#	Asimmetrichnost (nesmeshchennaya otsenka)
+  kurtosi(data)#	Ekstsess (nesmeshchennaya otsenka)
   psych::describe(data)
   IQR <- IQR(data)
-  Q1 <- quantile(data, .25)#	Нижняя граница нормы
+  Q1 <- quantile(data, .25)#	Nizhnyaya granitsa normy
   lower_b <- Q1 - 1.5*IQR
   lower_b
-  #спросить
-  Q3 <- quantile(data, .75)#Верхняя граница нормы
+  #sprosit
+  Q3 <- quantile(data, .75)#Verkhnyaya granitsa normy
   upper_b <- Q3 + 1.5*IQR
   upper_b
   extra <- data[data<lower_b | data > upper_b]
@@ -183,8 +183,8 @@ abc <- function(a){
   no_outliers <- subset(data, data> (Q1 - 1.5*IQR) & data< (Q3 + 1.5*IQR))
   length(data) - length(no_outliers)
   #1.2
-  var(no_outliers, y = NULL, na.rm = FALSE) #Дисперсия выборки (несмещенная)
-  # Доверительные интервалы
+  var(no_outliers, y = NULL, na.rm = FALSE) #Dispersiya vyborki (nesmeshchennaya)
+  # Doveritelnye intervaly
 
   ciE <- function(X, Gamma) {
     n <- length(X)
@@ -194,7 +194,7 @@ abc <- function(a){
     return(Res)
   }
   #--------------------------
-  # Доверительный интервал для генеральной дисперсии (или для истинной дисперсии) по выборке
+  # Doveritelnyy interval dlya generalnoy dispersii (ili dlya istinnoy dispersii) po vyborke
   ciD <- function(X, Gamma) {
     n <- length(X)
     ciD <- sd(X, na.rm = TRUE)^2*(n-1)/qchisq((1+c(Gamma,0,-Gamma))/2,n-1)
@@ -204,12 +204,12 @@ abc <- function(a){
   }
   ciE(no_outliers,0.96)
   ciD(no_outliers,0.96)
-  #Гистограмма интервальных частот
+  #Gistogramma intervalnykh chastot
   hist(data) 
-  #Диаграмма размаха ('ящик с усами')
+  #Diagramma razmakha ('yashchik s usami')
   boxplot(data,ylab='data')
 
-  #Часть 2
+  #Chast 2
   library(stringr)
   data_2 <- c(0)
   data_2 = str_replace_all(data_2, '[;]', ',')
@@ -228,8 +228,8 @@ abc <- function(a){
   cor(X, Y)
   mean(X)
   mean(Y)
-  var(X, y = NULL, na.rm = FALSE) #Дисперсия (несмещенная)
-  var(Y, y = NULL, na.rm = FALSE) #Дисперсия  (несмещенная)
+  var(X, y = NULL, na.rm = FALSE) #Dispersiya (nesmeshchennaya)
+  var(Y, y = NULL, na.rm = FALSE) #Dispersiya  (nesmeshchennaya)
   #2.1
   #H0:E(X)=E(Y)
   #H1:E(X)<E(Y)
@@ -251,7 +251,7 @@ abc <- function(a){
   #H1:Var(X)<Var(Y)
   var.test(Y,X, alternative='greater')$p.value
 
-  #Часть 3
+  #Chast 3
   data3 = c()
   data3 = str_replace_all(data3, '[;]', ',')
   data3 = str_replace_all(data3, 'NA', '')
