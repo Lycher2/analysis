@@ -52,7 +52,7 @@ abc <- function(a){
 
       Тест 3
       𝐻0:𝐸(𝑋𝑖)=𝐸(𝑋𝑗)		
-      𝐻1:𝐸(𝑋𝑖)≠𝐸(𝑋𝑗)H1:E(Xi)≠E(Xj) 		
+      𝐻1:𝐸(𝑋𝑖)≠𝐸(𝑋𝑗)		
       альфа=0,05
       t.test(X$V1, Y$V1)$p.value 		
       t.test(X$V1, Y$V1)$p.value <0.05 		
@@ -178,5 +178,127 @@ abc <- function(a){
         Res <- paste('Pvalue = ', round(2*(1-pnorm(abs(Z))), 5))
         return(Res)
       })
-  }")
+  }
+  library(psych)
+  library(e1071)
+  data <- c(1.46, -0.62, -0.21, -0.71, 0.11, -0.24, 0.37, 0.44, -0.64, -0.77, -0.06, 0.03, 0.25, 0.44, -1.07, 0.49, 0.4, -0.44, 0.02, 0.31, 0.67, 1.22, -1.12, 1.56, 0.9, -0.8, 0.04, 0.92, -0.47, -0.54, -1.68, 0.3, 0.94, 0.9, -0.24, -1.02, 1.22, -0.31, 1.14, -0.9, -0.21, 0.98, -1.07, 0.12, -2.18, -0.63, -0.66, 0.05, 0.34, 0.03, -0.1, 0.15, -0.34, -1.36, 0.31, 0.99, -0.65, -0.52, -0.12, -0.44, 0.21, 0.33, 0.78, -0.55, -1.04, -1.02, -2.29, 0.14, -0.84, 1.65, 1.82, 0.16, 1.27, 1.42, -0.8, -0.31, 0.26, -0.32, -1.2, -1.34, 1.13, -0.66, 1.37, -2.03, -0.22, 1.72, 0.05, -0.01, -0.08, 2.21, 0.52, 1.41, 0.83, -0.76, -0.86, -0.77, -0.14, -1.4, 0.3, -0.81, 0.03, 1.27, -0.25, 0.21, -0.32, -2.11, -0.42, -0.66, -1.17, -0.79, -0.51, -2.18, -0.69, 0.35, -0.74, 0.23, -1.1, 0.09, 0.89, 0.11, 0.06, -0.1, -0.29, 0.75, -0.6, 0.71, 0.91, -1.18, -0.38, -0.49, -0.21, -0.49, 0.67, 0.4, -0.68, -1.57, 2.44, -0.71, 1.11, 0.24, -0.76, -1.09, -0.49, 0.52, 0.94, 0.49, 0.86, -0.09, -0.97, -0.37, 0.6, -2.64, -0.4, -1.42, -0.91, 0.36, -0.48, 0.22, 0.52, 1.46, -0.21, 2.52, 3.06, -1.29, 0.51, -1.31, -1.05, -0.79, 2.3, -2.08, -0.85, -1.4, -0.91, -0.58, -0.27, 0.4, 0.3, 1.22, 0.23, 0.47, 0.75, -0.12, -1.02, -1.52, 0.47, -1.36, 0.12, -0.1, 0.19, -0.23, -0.75, -2.36, -1.2, -2.08, 0.22, 0.33, 0.07, 1.05, 0.61, 0.2, -1.67)
+  length(data)
+  summary(data)
+  describe(data)
+  IQR(data) # Межквартильный размах
+  quantile(data, probs = 0.38) # Квантиль уровня
+  var(data, y = NULL, na.rm = FALSE) #Дисперсия выборки (несмещенная)
+  skew(data)#	Асимметричность (несмещенная оценка)
+  kurtosi(data)#	Эксцесс (несмещенная оценка)
+  psych::describe(data)
+  IQR <- IQR(data)
+  Q1 <- quantile(data, .25)#	Нижняя граница нормы
+  lower_b <- Q1 - 1.5*IQR
+  lower_b
+  #спросить
+  Q3 <- quantile(data, .75)#Верхняя граница нормы
+  upper_b <- Q3 + 1.5*IQR
+  upper_b
+  extra <- data[data<lower_b | data > upper_b]
+  extra
+  no_outliers <- subset(data, data> (Q1 - 1.5*IQR) & data< (Q3 + 1.5*IQR))
+  length(data) - length(no_outliers)
+  #1.2
+  var(no_outliers, y = NULL, na.rm = FALSE) #Дисперсия выборки (несмещенная)
+  # Доверительные интервалы
+
+  ciE <- function(X, Gamma) {
+    n <- length(X)
+    ciE <- mean(X, na.rm = TRUE)-sd(X, na.rm = TRUE)/sqrt(n)*qt((1+c(Gamma,0,-Gamma))/2,n-1)
+    Interval <- cbind(E.Left = ciE[1],E.Right = ciE[3])
+    Res <- list(Eo = ciE[2], Interval = Interval)
+    return(Res)
+  }
+  #--------------------------
+  # Доверительный интервал для генеральной дисперсии (или для истинной дисперсии) по выборке
+  ciD <- function(X, Gamma) {
+    n <- length(X)
+    ciD <- sd(X, na.rm = TRUE)^2*(n-1)/qchisq((1+c(Gamma,0,-Gamma))/2,n-1)
+    Interval <- cbind(D.Left = ciD[1], D.Right = ciD[3])
+    Res <- list(Do = var(X), Interval = Interval)
+    return(Res)
+  }
+  ciE(no_outliers,0.96)
+  ciD(no_outliers,0.96)
+  #Гистограмма интервальных частот
+  hist(data) 
+  #Диаграмма размаха ('ящик с усами')
+  boxplot(data,ylab='data')
+
+  #Часть 2
+  library(stringr)
+  data_2 <- c(0)
+  data_2 = str_replace_all(data_2, '[;]', ',')
+  data_2 = str_replace_all(data_2, '[()]', '')
+  data_2
+  data_2 <- c()
+  n <- matrix(data_2, nrow = 2)
+  n = t(n)
+  dim(n)
+  n
+  X = n[, 1]
+  Y = n[, 2]
+  X
+  Y
+  #1.2
+  cor(X, Y)
+  mean(X)
+  mean(Y)
+  var(X, y = NULL, na.rm = FALSE) #Дисперсия (несмещенная)
+  var(Y, y = NULL, na.rm = FALSE) #Дисперсия  (несмещенная)
+  #2.1
+  #H0:E(X)=E(Y)
+  #H1:E(X)<E(Y)
+  t.test(Y,X, alternative='greater',paired = TRUE, var.equal = FALSE)
+  #H0:E(X)=E(Y)
+  #H1:E(X)!=E(Y)
+  t.test(Y,X, alternative='two.sided', paired = TRUE, var.equal = FALSE)
+  #H0:E(X)=E(Y)
+  #H1:E(X)>E(Y)
+  t.test(Y,X, alternative='less', paired = TRUE)
+  #2.2
+  #H0:Var(X)=Var(Y)
+  #H1:Var(X)≠Var(Y)
+  var.test(Y,X, alternative='two.sided')
+  #H0:Var(X)=Var(Y)
+  #H1:Var(X)>Var(Y)
+  var.test(Y,X, alternative='less')
+  #H0:Var(X)=Var(Y)
+  #H1:Var(X)<Var(Y)
+  var.test(Y,X, alternative='greater')
+
+  #Часть 3
+  data3 = c()
+  data3 = str_replace_all(data3, '[;]', ',')
+  data3 = str_replace_all(data3, 'NA', '')
+  data3 = str_replace_all(data3, ', ,', ',')
+  data3 = str_replace_all(data3, ', ,', ',')
+  data3 = c()
+  length(data3)
+  table(data3)
+  summary(data3)
+  sort(data3)
+  #input sample size and sample proportion
+  n <- 154
+  p <- 0.3441558
+  #calculate margin of error
+  margin <- qnorm(0.95)*sqrt(p*(1-p)/n)
+  #calculate lower and upper bounds of confidence interval
+  low <- p - margin
+  low
+  high <- p + margin
+  high
+  library(dplyr)
+  table(t)
+  barplot(table(data3))
+  #3.2
+  chisq.test(table(data3), simulate.p.value = TRUE)
+  qchisq(0.02,table(data3))
+  "
+     )
 }
