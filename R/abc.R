@@ -7,32 +7,11 @@
 #' @export
 abc <- function(a){
   cat(" 1) Описательная статистика
-        E(X)
-        F - столбец данных
-       19. xср	СРЗНАЧ(F:F)
-       20. s	СТАНДОТКЛОН.В(F:F)
-       21. n	СЧЁТ(F:F)
-       22. t	СТЬЮДЕНТ.ОБР(1-I23/2;I21-1)
-       23. альфа	1-I24
-       24. гамма	0,95
-       25. дельта	I20*I22/КОРЕНЬ(I21)
-       26. границы доверительного интервала	
-       27. E(X1)	I19-I25
-       28. E(X2)	I19+I25
-
        Var(X)	
        33. n	СЧЁТ(F:F)
        34. s^2	ДИСП.В(F:F)
        35. xи2 лев	ХИ2.ОБР(I37/2;I33-1)
        36. хи2 прав	ХИ2.ОБР(1-I37/2;I33-1)
-       37. альфа	1-I38
-       38. гамма	0,95
-       39. границы доверительного интервала	
-       40. Var(X1)	(I33-1)*I34/I36
-       41. Var(X2)	(I33-1)*I34/I35
-       42. s(X1)	КОРЕНЬ(I40)
-       43. s(X2)	КОРЕНЬ(I41)
-
       Тест 1
       Н0: r=0	статистически незначим
       H1: rне=0	статистически значим
@@ -254,23 +233,23 @@ abc <- function(a){
   #2.1
   #H0:E(X)=E(Y)
   #H1:E(X)<E(Y)
-  t.test(Y,X, alternative='greater',paired = TRUE, var.equal = FALSE)
+  t.test(Y,X, alternative='greater',paired = TRUE, var.equal = FALSE)$p.value
   #H0:E(X)=E(Y)
   #H1:E(X)!=E(Y)
-  t.test(Y,X, alternative='two.sided', paired = TRUE, var.equal = FALSE)
+  t.test(Y,X, alternative='two.sided', paired = TRUE, var.equal = FALSE)$p.value
   #H0:E(X)=E(Y)
   #H1:E(X)>E(Y)
-  t.test(Y,X, alternative='less', paired = TRUE)
+  t.test(Y,X, alternative='less', paired = TRUE)$p.value
   #2.2
   #H0:Var(X)=Var(Y)
   #H1:Var(X)≠Var(Y)
-  var.test(Y,X, alternative='two.sided')
+  var.test(Y,X, alternative='two.sided')$p.value
   #H0:Var(X)=Var(Y)
   #H1:Var(X)>Var(Y)
-  var.test(Y,X, alternative='less')
+  var.test(Y,X, alternative='less')$p.value
   #H0:Var(X)=Var(Y)
   #H1:Var(X)<Var(Y)
-  var.test(Y,X, alternative='greater')
+  var.test(Y,X, alternative='greater')$p.value
 
   #Часть 3
   data3 = c()
@@ -299,6 +278,10 @@ abc <- function(a){
   #3.2
   chisq.test(table(data3), simulate.p.value = TRUE)
   qchisq(0.02,table(data3))
+  #Teoriya
+  #nizhnyaya granitsa mat ozhid P{E(X)> mean(X) - t_n-1;y * s/korenn} = gamma kak y
+  #verkhnyaya granitsa mat ozhid P{E(X)> mean(X) - t_n-1;1-y * s/korenn} = gamma kak y
+  #verkhnyaya granitsa dispresii p{q^2 < (n-1)s^2 / x^2_n-1;1-y} =  gamma kak y
   "
      )
 }
