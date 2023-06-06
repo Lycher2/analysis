@@ -282,6 +282,12 @@ ab <- function(a){
   #nizhnyaya granitsa mat ozhid P{E(X)> mean(X) - t_n-1;y * s/korenn} = gamma kak y
   #verkhnyaya granitsa mat ozhid P{E(X)> mean(X) - t_n-1;1-y * s/korenn} = gamma kak y
   #verkhnyaya granitsa dispresii p{q^2 < (n-1)s^2 / x^2_n-1;1-y} =  gamma kak y
+  # a1=a1 : Z= (mean(1) - mean(2))/ coren(q^1_1 / n1 + q^2_2/n2) : criticheskaya oblast prinatya H1 Z>z_1-a ili Z>-z_1-a ili |Z| < z 1-a/2
+  #dolzhno vapolnyatsya N(0,1) pri H0
+  #q^2_1 = q^2_2 : F_n1-1, n2-1 = S^2_1/ S^2_2 gde vnizy (s^2_1>S^2_2)
+  #dolzhno vapolnyatsya  F_n1-1, n2-1 pri H0
+  #q^2_1>q^2_2 Fa1 - 1 a2-1 > f_n1-1; n2-1; 1-a
+  #q^2_1!=q^2_2 Fn1 - 1 n2-1 > f_n1-1; n2-1; 1-a/2
   "
      )
 }
