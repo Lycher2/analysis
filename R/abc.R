@@ -1,11 +1,11 @@
-#' abc for R
+#' ab for R
 #'
 #' @param a quadratic coefficient
 #' @param b linear coefficient
 #' @param c constant
 #' @return root
 #' @export
-abc <- function(a){
+ab <- function(a){
   cat(" 1) Opisatelnaya statistika
        Var(X)	
        33. n	SChET(F:F)
