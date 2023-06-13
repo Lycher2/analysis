@@ -6,6 +6,161 @@
 #' @return root
 #' @export
 ab <- function(a){
-  cat(" "
+  cat(" library(ggplot2)
+library(scales)
+library(dplyr)
+library(ggstatsplot)
+library(lmtest)
+library(mgcv)
+library(itsadug)
+library(car)
+#Zadacha 1.1
+#1)
+X <-  c(119.2,123.9,119.8,117,126.2,117.2,118.6,120.2,113,117.8,117.7,123.4,121.1,127.6,122.1,117.6,117.7,108.8)
+Y <- c(120.9,118.6,118.1,122.7,116.6,118.6,121.4,119.1,121.9,121.8,119,118.1,122.5,120.3,121.9,121.7,120.1,122.1)
+df <- data.frame(x = X, y = Y)
+fm<-lm(Y~X)
+summary(fm)
+coef(fm)
+#𝑦𝑡 = 𝑎0 + 𝑎1 ∙ 𝑥𝑡 + 𝜀𝑡,𝑡 = 1, … ,18,
+#Otsenennaya model v standartnoy forme:
+#𝑦𝑡 = 145,14(10,60)− 0,21(0,09)∙ 𝑥𝑡 + 𝜀̃𝑡(1,63),𝑡 = 1, … ,18
+#2)
+5.49 > qf(p=.05, df1=1, df2=16, lower.tail=FALSE)
+#	Proverka statisticheskoy znachimosti regressii v tselom:
+#Proverka statisticheskoy znachimosti koeffitsienta determinatsii sovpadaet s proverkoy znachimosti modeli v tselom
+#𝐻0: 𝑎1 = 𝑎2 = ⋯ = 𝑎𝑘 = 0, gde 𝑘 – chislo regressorov, dlya modeli parnoy regressii svoditsya k gipoteze 𝐻0: 𝑎1 = 0,
+#𝐹 = 5,49 > 𝐹kr(𝛼 = 0,05, 𝑑𝑓1 = 1, 𝑑𝑓2 = 16) = 4,49, sledovatelno, net osnovaniy prinyat nulevuyu gipotezu o neznachimosti modeli v tselom, model priznaetsya znachimoy.
+#𝑅2 = 0,26 - dolya dispersii endogennoy peremennoy, obyasnennaya uravneniem regressii.
+#Proverka statisticheskoy znachimosti otsenok koeffitsientov modeli:
+#𝐻0: 𝑎0 = 0
+#𝐻1: 𝑎0  ≠ 0
+145.141 / 10.604 > qt(p=.05/2, df=16, lower.tail=FALSE)
+#sledovatelno, net osnovaniy prinyat gipotezu o neznachimosti svobodnogo chlena, koeffitsient 𝑎0 priznaetsya znachimym.
+
+abs(-0.20808) / 0.08877 > qt(p=.05/2, df=16, lower.tail=FALSE)
+#sledovatelno,	net	osnovaniy	prinyat	gipotezu	o	neznachimosti koeffitsienta 𝑎1, koeffitsient 𝑎1 priznaetsya znachimym.
+#3)
+#3)	Provedem test Darbina-Uotsona:
+durbinWatsonTest(fm)
+#𝐻0: 𝜌 = 0,
+#dlya 𝑛 = 18, 𝑘 = 1 i 5%-nogo urovnya znachimosti znacheniya 𝑑𝐿 i 𝑑𝑈:
+#  𝑑𝐿 = 1,16, 𝑑𝑈 = 1,39
+#𝐷𝑊 = 1,91 ∈ (𝑑𝑢, 4 − 𝑑𝑢 ), sledovatelno, net osnovaniy otvergnut gipotezu ob otsutstvii avtokorrelyatsii.
+#-	esli 𝐷𝑊 ∈ [0, 𝑑𝐿], to vyborochnyy koeffitsient korrelyatsii sosednikh po nomeru ostatkov regressii 𝜌 > 0, t.e. delaetsya vyvod o nalichii polozhitelnoy avtokorrelyatsii v ostatkakh;
+#-	esli 𝐷𝑊 ∈ [4 − 𝑑𝐿, 4], to vyborochnyy koeffitsient korrelyatsii sosednikh po nomeru ostatkov regressii 𝜌 < 0, t.e. delaetsya vyvod o nalichii otritsatelnoy avtokorrelyatsii v ostatkakh;
+
+#4) Provedem test Goldfelda-Kvandta: 𝐻0: 𝜎2 = 𝑐𝑜𝑛𝑠𝑡, 𝑡 = 1, … , 𝑛
+#GQ = RSS1/RSS2
+#uporyadochit vyborku !
+# razdelim vyborku na 3 chasti, uberem iz tsentra 6 znacheniy
+gqtest(fm, fraction = 0.3)
+#Null (H 0 ) : prisutstvuet gomoskedastichnost.
+#Alternativa ( HA ): prisutstvuet geteroskedastichnost.
+
+#5) Adekvatnost
+#1.7
+X_17 <- c(7,6.2,5.7,5.7,6.7)
+Y_17 <- c(2257.3,2541.9,2798.4,3268.6,3657.7)
+control_x <- c(3.8)
+control_y <- c(10690)
+fm<-lm(Y_17~X_17)
+summary(fm)
+coef(fm)
+y_pred = control_x * (-1462.199) + 14725.955
+t_crit = 1.67054 # df = 60 q = 0.1
+x0_17 <- c(1, 3.8)
+x_17 <- c(1, 1, 1, 1, 1)
+X_1 = cbind(x_17, X_17)
+t(t(x0_17))
+stde = 1530
+Q_y = sqrt(1 + t(x0_17)%*%solve(t(X_1)%*%X_1)%*%t(t(x0_17))) * stde
+Q_y
+y_l = y_pred - t_crit*Q_y
+y_p = y_pred + t_crit*Q_y
+y_l <= control_y 
+y_pred<= control_y 
+ggscatterstats(
+  data = data.frame(x = X, y = Y),
+  x = x,
+  y = y,
+  bf.message = FALSE
+)
+#dlya sredney otnositelnoy oshibki approksimatsii
+predicted<-fm_13$fitted.values
+MAE <- function (Obs, Prd, dgt=3){
+  ErrorSq = sum(abs(Prd - Obs)/Prd)/length(Obs) * 100
+  return(ErrorSq)
+}
+MAE(Y_13, predicted)
+#oshibka aproksimatsii bolshe 7%
+#1.5
+if(!require(tseries)){install.packages('tseries')}
+jb = jarque.bera.test(resid(fm_13))
+jb
+Xi2 = 5.9914
+jb<Xi2
+# fiktivnye peremennye 
+t <- c(1,2,3,4,5,6,7,8,9,10,11,12,1)
+d1 <- c(1,0,0,0,1,0,0,0,1,0,0,0,1,0)
+d2 <- c(0,1,0,0,0,1,0,0,0,1,0,0,0,1)
+d3 <- c(0,0,1,0,0,0,1,0,0,0,1,0)
+fm_2<-lm(Y_2~t+d1+d2+d3)
+
+#exp(1)
+#log(x)
+#Dopushcheniya MNK:
+
+#Tipy peremennykh na X i Y - kolichestvennye(X,Y), faktornye (X)
+#Ne-nulevaya dispersiya
+#Net multikollinearnosti
+#Prediktory ne korrelirovany s faktorami, ne vklyuchennymi v model
+#Gomoksedeksichnost (stabilnost dispersii oshibok)
+#Otsutstvie avtokorrelyatsii oshibok (nezavisimost sluchaev)
+#Normalno raspredelennye oshibki
+#Nezavisimost Y
+#Lineynaya zavisimost mezhdu prediktorami i Y
+
+#𝒏	𝒌 = 𝟏	𝒌 = 𝟐	𝒌 = 𝟑	𝒌 = 𝟒	𝒌 = 𝟓
+# 𝑑𝐿	𝑑𝑈	𝑑𝐿	𝑑𝑈	𝑑𝐿	𝑑𝑈	𝑑𝐿	𝑑𝑈	𝑑𝐿	𝑑𝑈
+# 6	0,61	1,4								
+# 7	0,7	1,36	0,47	1,9						
+# 8	0,76	1,33	0,36	1,78	0,37	2,29				
+# 9	0,32	1,32	0,63	1,7	0,44	2,13	0,3	2,39		
+# 10	0,88	1,32	0,7	1,64	0,53	2,02	0,38	2,41	0,24	2,82
+# 11	0,93	1,32	0,66	1,6	0,6	1,93	0,44	2,28	0,32	2,65
+# 12	0,97	1,33	0,81	1,58	0,66	1,86	0,51	2,18	0,38	2,51
+# 13	1,01	1,34	0,86	1,56	0,72	1,82	0,57	2,09	0,45	2,39
+# 14	1,05	1,33	0,91	1,55	0,77	1,78	0,63	2,03	0,51	2,3
+# 15	1,08	1,36	0,95	1,54	0,82	1,75	0,69	1,97	0,56	2,21
+# 16	1,1	1,37	0,98	1,54	0,86	1,73	0,74	1,93	0,62	2,15
+# 17	1,13	1,38	1,02	1,54	0,9	1,71	0,78	1,9	0,67	2,1
+# 18	1,16	1,39	1,05	1,53	0,93	1,69	0,82	1,87	0,71	2,06
+# 19	1,18	1,4	1,08	1,53	0,97	1,68	0,86	1,85	0,75	2,02
+# 20	1,2	1,41	1,1	1,54	1	1,68	0,9	1,83	0,79	1,99
+# 21	1,22	1,42	1,13	1,54	1,03	1,67	0,93	1,81	0,83	1,96
+# 22	1,24	1,43	1,15	1,54	1,05	1,66	0,96	1,8	0,86	1,94
+# 23	1,26	1,44	1,17	1,54	1,08	1,66	0,99	1,79	0,9	1,92
+# 24	1,27	1,45	1,19	1,55	1,1	1,66	1,01	1,78	0,93	1,9
+# 25	1,29	1,45	1,21	1,55	1,12	1,66	1,04	1,77	0,95	1,89
+# 26	1,3	1,46	1,22	1,55	1,14	1,65	1,06	1,76	0,98	1,88
+# 27	1,32	1,47	1,24	1,56	1,16	1,65	1,08	1,76	1,01	1,86
+# 28	1,33	1,48	1,26	1,56	1,18	1,65	1,1	1,75	1,03	1,85
+# 29	1,34	1,48	1,27	1,56	1,2	1,65	1,12	1,74	1,05	1,84
+# 30	1,35	1,49	1,28	1,57	1,21	1,65	1,14	1,74	1,07	1,83
+# 31	1,36	1,5	1,3	1,57	1,23	1,65	1,16	1,74	1,09	1,83
+# 32	1,37	1,5	1,31	1,57	1,24	1,65	1,18	1,73	1,11	1,82
+# 33	1,38	1,51	1,32	1,58	1,26	1,65	1,19	1,73	1,13	1,81
+# 34	1,39	1,51	1,33	1,58	1,27	1,65	1,21	1,73	1,15	1,81
+# 35	1,4	1,52	1,34	1,58	1,28	1,65	1,22	1,73	1,16	1,8
+# 36	1,41	1,52	1,35	1,59	1,29	1,65	1,24	1,73	1,18	1,8
+# 37	1,42	1,53	1,36	1,59	1,31	1,66	1,25	1,72	1,19	1,8
+# 38	1,43	1,54	1,37	1,59	1,32	1,66	1,26	1,72	1,21	1,79
+# 39	1,43	1,54	1,38	1,6	1,33	1,66	1,27	1,72	1,22	1,79
+# 40	1,44	1,54	1,39	1,6	1,34	1,66	1,29	1,72	1,23	1,79
+# 45	1,48	1,57	1,43	1,62	1,38	1,67	1,34	1,72	1,29	1,78
+# 47	1,49	1,57	1,44	1,62	1,40	1,67	1,35	1,72	1,31	1,77
+# 50	1,5	1,59	1,46	1,63	1,42	1,67	1,38	1,72	1,34	1,77
+"
      )
 }
