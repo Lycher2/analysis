@@ -1,8 +1,8 @@
-Package: analysisss
+Package: analysis
 Type: Package
 Title: Abc Formula for R
 Version: 1.0
-Date: 2012-09-21
+Date: 2023-09-21
 Author: Who wrote it
 Maintainer: Who to complain to <yourfault@somewhere.net>
 Description: More about what it does (maybe more than one line)
