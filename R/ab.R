@@ -170,15 +170,12 @@ Vidim, chto skorrektirovannyĕ koeffitsient determinatsii izmenilsya
 v otvet na dobavlenie peremennoy kh1 (umenshilsya s 0,4408 do 0,4108), 
 sledovatelno dobavlenie kh1 yavlyaetsya ne tselesoobraznym. Standartnaya oshibka pri etom uvelichilas s 1,284 do 1,318. 
 
-#Bez dobavleniya x1
-file.show("Yx2x3.txt") #proverka uravneniy nablyudeniy 
-Yx23 <- read.table("Yx2x3.txt", sep = "", dec = ",", header = TRUE) # zapis uravneniya 
+#Bez dobavleniya x1 
+Yx23
 Yx23
 modYx23 <-lm(data = Yx23, y~x2+x3) 
 summary(modYx23)
 #Posle dobavleniya
-file.show("Yx1x2x3.txt") #proverka uravneniy nablyudeniy 
-Yx123 <- read.table("Yx1x2x3.txt", sep = "", dec = ",", header = TRUE) # zapis uravneniya 
 Yx123
 modYx123 <-lm(data = Yx123, y~x1+x2+x3) 
 summary(modYx123)
@@ -192,7 +189,7 @@ modifitsirovannaya model ne mozhet interpretirovatsya kak adekvatnaya.
 
 cdata<-data.frame(t=1992, LnKt=7.2907, LnLt=4.2777, Lnpt=3.1416)
 cdata
-predict.lm(modv23, newdata = cdata, interval = "prediction", level = 0.95)
+predict.lm(modv23, newdata = cdata, interval = prediction, level = 0.95)
  
 VYBROSY
 Vybrosami budem schitat znacheniya na grafike, kotorye bolshe vsego otkloneny ot zadannoy linii trenda 
